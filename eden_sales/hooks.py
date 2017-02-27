@@ -26,10 +26,6 @@ fixtures = [
 
 ]
 
-doctype_js = {
-	"Company": "custom_scripts/company.js",
-}
-
 # Includes in <head>
 # ------------------
 

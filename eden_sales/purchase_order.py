@@ -6,7 +6,7 @@ from frappe.utils.data import add_days
 
 
 def on_submit(doc, method):
-	"""Handle sample item"""
+	"""Auto create Sales Order"""
 	if frappe.flags.in_import or frappe.flags.in_test:
 		return
 
@@ -24,9 +24,9 @@ def on_submit(doc, method):
 	for item in doc.get("items"):
 		so.append("items", {
 			"item_code": item.item_code,
-			# "warehouse": item.warehouse, // item need to set default warehouse
 			"qty": item.qty,
 			"rate": item.rate,
+			"delivered_by_supplier": item.delivered_by_supplier,
 			"conversion_factor": item.conversion_factor
 		})
 
