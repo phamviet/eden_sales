@@ -16,15 +16,16 @@ fixtures = [
 		"doctype": "Custom Field",
 		"filters": [
 			["name", "in", (
-				"Buying Settings-eden_custom",
-				"Buying Settings-auto_make_sales_order",
-				"Buying Settings-sales_order_customer",
-				"Buying Settings-sales_order_company"
+
 			)]
 		]
 	}
 
 ]
+
+doctype_js = {
+	"Purchase Order": "scripts/po.js",
+}
 
 # Includes in <head>
 # ------------------
@@ -86,11 +87,7 @@ fixtures = [
 # Hook on document methods and events
 
 doc_events = {
-	"Purchase Order": {
-		"on_submit": [
-			"eden_sales.purchase_order.on_submit"
-		]
-	},
+
 	"Delivery Note": {
 		"on_submit": [
 			"eden_sales.delivery_note.on_submit"

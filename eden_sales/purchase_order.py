@@ -2,44 +2,73 @@
 
 from __future__ import unicode_literals
 import frappe
+from frappe.model.mapper import get_mapped_doc
 from frappe.utils.data import add_days
 
 
-def on_submit(doc, method):
-	"""Auto create Sales Order"""
-	if frappe.flags.in_import or frappe.flags.in_test:
-		return
+@frappe.whitelist()
+def make_sales_order(source_name, for_company, target_doc=None):
+	def set_missing_values(source, target):
+		target.company = for_company
+		target.delivery_date = add_days(source.transaction_date, 3)
+		target.po_no = source.name
+		target.po_date = source.transaction_date
 
-	buying_settings = frappe.get_doc("Buying Settings")
+		if any(item.delivered_by_supplier == 1 for item in source.items):
+			target.customer_address = source.shipping_address
+			target.address_display = source.shipping_address_display
 
-	if not buying_settings.auto_make_sales_order:
-		return
+			target.contact_person = source.customer_contact_person
+			target.contact_display = source.customer_contact_display
+			target.contact_mobile = source.customer_contact_mobile
+			target.contact_email = source.customer_contact_email
 
-	so = frappe.new_doc("Sales Order")
-	so.company = buying_settings.sales_order_company
-	so.customer = buying_settings.sales_order_customer
-	so.delivery_date = add_days(None, 10)
-	so.po_no = doc.name
+			default_price_list = frappe.get_value("Customer", target.customer, "default_price_list")
+			if default_price_list:
+				target.selling_price_list = default_price_list
 
-	for item in doc.get("items"):
-		so.append("items", {
-			"item_code": item.item_code,
-			"qty": item.qty,
-			"rate": item.rate,
-			"delivered_by_supplier": item.delivered_by_supplier,
-			"conversion_factor": item.conversion_factor
-		})
+		else:
+			target.customer = ""
+			target.customer_name = ""
 
-	so.submit()
+		target.run_method("set_missing_values")
+		target.run_method("calculate_taxes_and_totals")
 
-def make_sales_order(**args):
-	so = frappe.new_doc("Sales Order")
-	args = frappe._dict(args)
-	# so.currency = args.currency or "INR"
+	def update_item(source, target, source_parent):
+		target.qty = source.qty
 
-	so.delivery_date = add_days(None, 10)
+	doclist = get_mapped_doc("Purchase Order", source_name, {
+		"Purchase Order": {
+			"doctype": "Sales Order",
+			"field_no_map": [
+				"address_display",
+				"contact_display",
+				"contact_mobile",
+				"contact_email",
+				"contact_person"
+			],
+			"validation": {
+				"docstatus": ["=", 1]
+			}
+		},
+		"Purchase Order Item": {
+			"doctype": "Sales Order Item",
+			"field_map": [
+				["name", "purchase_order_item"],
+				["parent", "purchase_order"],
+				["stock_uom", "uom"],
+			],
+			"field_no_map": [
+				"delivered_by_supplier",
+				"warehouse",
+				"rate",
+				"price_list_rate"
+			],
+			"postprocess": update_item,
+		}
+	}, target_doc, set_missing_values)
 
+	doclist.insert(ignore_permissions=True)
+	frappe.db.commit()
 
-def make_from_po():
-	po = frappe.get_doc("Purchase Order", "PO-00005")
-	on_submit(po, "on_submit")
+	return doclist
