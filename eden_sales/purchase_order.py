@@ -15,21 +15,14 @@ def make_sales_order(source_name, for_company, target_doc=None):
 		target.po_date = source.transaction_date
 
 		if any(item.delivered_by_supplier == 1 for item in source.items):
-			target.customer_address = source.shipping_address
-			target.address_display = source.shipping_address_display
+			target.shipping_address_name = source.shipping_address
+			target.shipping_address = source.shipping_address_display
 
 			target.contact_person = source.customer_contact_person
 			target.contact_display = source.customer_contact_display
 			target.contact_mobile = source.customer_contact_mobile
 			target.contact_email = source.customer_contact_email
 
-			default_price_list = frappe.get_value("Customer", target.customer, "default_price_list")
-			if default_price_list:
-				target.selling_price_list = default_price_list
-
-		else:
-			target.customer = ""
-			target.customer_name = ""
 
 		target.run_method("set_missing_values")
 		target.run_method("calculate_taxes_and_totals")
@@ -45,7 +38,9 @@ def make_sales_order(source_name, for_company, target_doc=None):
 				"contact_display",
 				"contact_mobile",
 				"contact_email",
-				"contact_person"
+				"contact_person",
+				"customer",
+				"customer_name",
 			],
 			"validation": {
 				"docstatus": ["=", 1]

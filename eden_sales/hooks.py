@@ -16,7 +16,9 @@ fixtures = [
 		"doctype": "Custom Field",
 		"filters": [
 			["name", "in", (
-
+				"Company-customer_profile",
+				"Supplier-company_stand_for",
+				"Purchase Invoice-supplier_sales_invoice"
 			)]
 		]
 	}
@@ -88,6 +90,12 @@ doctype_js = {
 
 doc_events = {
 
+	"Sales Order": {
+		"set_missing_values": [
+			"eden_sales.sales_order.set_missing_values"
+		]
+	},
+
 	"Delivery Note": {
 		"on_submit": [
 			"eden_sales.delivery_note.on_submit"
@@ -96,6 +104,11 @@ doc_events = {
 	"Sales Invoice": {
 		"on_submit": [
 			"eden_sales.sales_invoice.on_submit"
+		]
+	},
+	"Payment Entry": {
+		"on_submit": [
+			"eden_sales.payment_entry.on_submit"
 		]
 	},
 }
