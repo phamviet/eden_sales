@@ -18,7 +18,9 @@ fixtures = [
 			["name", "in", (
 				"Company-customer_profile",
 				"Supplier-company_stand_for",
-				"Purchase Invoice-supplier_sales_invoice"
+				"Purchase Invoice-supplier_sales_invoice",
+				"Sales Order-dropship_customer",
+				"Sales Order-shipping_customer_section",
 			)]
 		]
 	}
@@ -145,4 +147,3 @@ doc_events = {
 # override_whitelisted_methods = {
 # 	"frappe.desk.doctype.event.event.get_events": "eden_sales.event.get_events"
 # }
-

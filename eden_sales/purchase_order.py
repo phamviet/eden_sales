@@ -10,18 +10,18 @@ from frappe.utils.data import add_days
 def make_sales_order(source_name, for_company, target_doc=None):
 	def set_missing_values(source, target):
 		target.company = for_company
-		target.delivery_date = add_days(source.transaction_date, 3)
+		target.delivery_date = add_days(None, 3)
 		target.po_no = source.name
 		target.po_date = source.transaction_date
+		target.dropship_order = 1
 
 		if any(item.delivered_by_supplier == 1 for item in source.items):
+			target.dropship_customer = source.customer
+			# target.dropship_customer_contact_person = source.customer_contact_person
+			# target.dropship_customer_contact_display = source.customer_contact_display
+
 			target.shipping_address_name = source.shipping_address
 			target.shipping_address = source.shipping_address_display
-
-			target.contact_person = source.customer_contact_person
-			target.contact_display = source.customer_contact_display
-			target.contact_mobile = source.customer_contact_mobile
-			target.contact_email = source.customer_contact_email
 
 
 		target.run_method("set_missing_values")

@@ -2,7 +2,7 @@ frappe.provide('eden_sales.po');
 
 frappe.ui.form.on("Purchase Order", {
     refresh: function (frm) {
-        if (frm.doc.docstatus == 1) {
+        if (frm.doc.docstatus == 1 && frm.doc.status != "Delivered") {
             frm.add_custom_button(__('Send to Company'), function () {
                 frappe.call({
                     type: "GET",

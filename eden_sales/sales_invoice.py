@@ -18,8 +18,8 @@ def on_submit(doc, method):
 		if not po_no:
 			return
 
-	po = frappe.get_doc("Purchase Order", po_no)
-	if flt(po.per_billed, 2) < 100:
-		pi = make_purchase_invoice(po_no)
-		pi.supplier_sales_invoice = doc.name
-		pi.submit()
+	# po = frappe.get_doc("Purchase Order", po_no)
+	# if flt(po.per_billed, 2) < 100:
+	# 	pi = make_purchase_invoice(po_no)
+	# 	pi.supplier_sales_invoice = doc.name
+	# 	pi.submit()

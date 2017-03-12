@@ -13,4 +13,4 @@ def on_submit(doc, method):
 	if not doc.po_no:
 		return
 
-	update_status("Delivered", doc.po_no)
+	# update_status("Delivered", doc.po_no)
