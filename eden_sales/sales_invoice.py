@@ -27,6 +27,10 @@ def on_submit(doc, method):
 		original_item = pi.items.pop()
 		pi.items = []
 		for item in doc.items:
-			pi.items.append(original_item.update({"qty": item.qty}))
+			pi.items.append(original_item.update({
+				"item_code": item.item_code,
+				"item_name": item.item_name,
+				"qty": item.qty
+			}))
 
 		pi.save()
