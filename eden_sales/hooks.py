@@ -19,6 +19,7 @@ fixtures = [
 				"Company-customer_profile",
 				"Supplier-company_stand_for",
 				"Purchase Invoice-supplier_sales_invoice",
+				"Sales Order-dropship_order",
 				"Sales Order-dropship_customer",
 				"Sales Order-shipping_customer_section",
 			)]
