@@ -20,10 +20,12 @@ fixtures = [
 				"Supplier-company_stand_for",
 				"Purchase Invoice-supplier_sales_invoice",
 				"Sales Order-dropship_order",
-				"Sales Order-dropship_customer",
 				"Sales Order-dropship_customer_name",
-				"Delivery Note-dropship_customer",
+				"Sales Order-dropship_contact",
+				"Sales Order-dropship_mobile",
 				"Delivery Note-dropship_customer_name",
+				"Delivery Note-dropship_contact",
+				"Delivery Note-dropship_mobile",
 				"Sales Order-shipping_customer_section",
 			)]
 		]
