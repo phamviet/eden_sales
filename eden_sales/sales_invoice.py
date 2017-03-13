@@ -7,19 +7,26 @@ from frappe.utils.data import flt
 
 
 def on_submit(doc, method):
-	"""Handle sample item"""
+	"""Auto make purchase invoice on retail"""
+
 	if frappe.flags.in_import or frappe.flags.in_test:
 		return
 
-	item = doc.get("items")[0]
-	po_no = None
-	if item.sales_order:
-		po_no = frappe.get_value("Sales Order", item.sales_order, "po_no")
-		if not po_no:
-			return
+	from_so = next(d.sales_order for d in doc.items if d.sales_order)
+	if not from_so:
+		return
 
-	# po = frappe.get_doc("Purchase Order", po_no)
-	# if flt(po.per_billed, 2) < 100:
-	# 	pi = make_purchase_invoice(po_no)
-	# 	pi.supplier_sales_invoice = doc.name
-	# 	pi.submit()
+	so = frappe.get_doc("Sales Order", from_so)
+	if not so.dropship_order or not so.po_no:
+		return
+
+	po = frappe.get_doc("Purchase Order", so.po_no)
+	if flt(po.per_billed, 2) < 100:
+		pi = make_purchase_invoice(po.name)
+		pi.supplier_sales_invoice = doc.name
+		original_item = pi.items.pop()
+		pi.items = []
+		for item in doc.items:
+			pi.items.append(original_item.update({"qty": item.qty}))
+
+		pi.save()
