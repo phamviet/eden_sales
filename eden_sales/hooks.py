@@ -21,6 +21,9 @@ fixtures = [
 				"Purchase Invoice-supplier_sales_invoice",
 				"Sales Order-dropship_order",
 				"Sales Order-dropship_customer",
+				"Sales Order-dropship_customer_name",
+				"Delivery Note-dropship_customer",
+				"Delivery Note-dropship_customer_name",
 				"Sales Order-shipping_customer_section",
 			)]
 		]
