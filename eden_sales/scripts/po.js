@@ -57,8 +57,10 @@ eden_sales.po = {
                 freeze: true,
                 callback: function (r) {
                     if (!r.exc) {
-                        frappe.show_alert(__('Sales Order {0} created',
-					['<a href="#Form/Sales Order/'+r.message.name+'">' + r.message.name+ '</a>']));
+                        frappe.show_alert(__('Sales Order {0} created in company {1}',
+					['<a href="#Form/Sales Order/'+r.message.name+'">' + r.message.name+ '</a>',
+                    '<a href="#Form/Company/'+r.message.company+'">' + r.message.company+ '</a>']
+                        ));
                     }
                 }
             })
