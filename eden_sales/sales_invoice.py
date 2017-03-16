@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 import frappe
 from erpnext.buying.doctype.purchase_order.purchase_order import make_purchase_invoice
-from frappe.utils.data import flt
+from frappe.utils.data import flt, today
 
 
 def on_submit(doc, method):
@@ -23,14 +23,18 @@ def on_submit(doc, method):
 	po = frappe.get_doc("Purchase Order", so.po_no)
 	if flt(po.per_billed, 2) < 100:
 		pi = make_purchase_invoice(po.name)
-		pi.supplier_sales_invoice = doc.name
-		original_item = pi.items.pop()
-		pi.items = []
-		for item in doc.items:
-			pi.items.append(original_item.update({
-				"item_code": item.item_code,
-				"item_name": item.item_name,
-				"qty": item.qty
-			}))
+		pi.bill_no = doc.name
+		pi.bill_date = today()
+
+		for item in pi.items:
+			for source_item in doc.items:
+				if source_item.item_code == item.item_code:
+					item.update({
+						"item_code": source_item.item_code,
+						"item_name": source_item.item_name,
+						"qty": source_item.qty,
+					})
+
 
 		pi.save()
+

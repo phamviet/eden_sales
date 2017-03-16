@@ -17,8 +17,9 @@ def make_sales_order(source_name, for_company, target_doc=None):
 
 		if any(item.delivered_by_supplier == 1 for item in source.items):
 			target.dropship_customer_name = source.customer_name
-			target.dropship_contact = source.customer_contact_display
-			target.dropship_mobile = source.customer_contact_mobile
+			target.dropship_contact = source.contact_display
+			target.dropship_mobile = source.contact_mobile
+			target.dropship_email = source.contact_email
 
 			target.shipping_address_name = source.shipping_address
 			target.shipping_address = source.shipping_address_display

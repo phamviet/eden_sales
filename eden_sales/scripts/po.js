@@ -57,8 +57,8 @@ eden_sales.po = {
                 freeze: true,
                 callback: function (r) {
                     if (!r.exc) {
-                        var doc = frappe.model.sync(r.message);
-                        frappe.set_route("Form", r.message.doctype, r.message.name);
+                        frappe.show_alert(__('Sales Order {0} created',
+					['<a href="#Form/Sales Order/'+r.message.name+'">' + r.message.name+ '</a>']));
                     }
                 }
             })

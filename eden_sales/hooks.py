@@ -23,9 +23,11 @@ fixtures = [
 				"Sales Order-dropship_customer_name",
 				"Sales Order-dropship_contact",
 				"Sales Order-dropship_mobile",
+				"Sales Order-dropship_email",
 				"Delivery Note-dropship_customer_name",
 				"Delivery Note-dropship_contact",
 				"Delivery Note-dropship_mobile",
+				"Delivery Note-dropship_email",
 				"Sales Order-shipping_customer_section",
 			)]
 		]
