@@ -6,19 +6,17 @@ from erpnext.buying.doctype.purchase_order.purchase_order import make_purchase_i
 from frappe.utils.data import flt, today
 
 
-def on_submit(doc, method):
-	"""Auto make purchase invoice on retail"""
-
-	if frappe.flags.in_import or frappe.flags.in_test:
-		return
+@frappe.whitelist()
+def send_to_company(name):
+	doc = frappe.get_doc("Sales Invoice", name)
 
 	from_so = next(d.sales_order for d in doc.items if d.sales_order)
 	if not from_so:
-		return
+		frappe.throw("No linked Sales Order found")
 
 	so = frappe.get_doc("Sales Order", from_so)
 	if not so.dropship_order or not so.po_no:
-		return
+		frappe.throw("Linked Sales Order {0} must be dropship to use this feature".format(so.name))
 
 	po = frappe.get_doc("Purchase Order", so.po_no)
 	if flt(po.per_billed, 2) < 100:
@@ -30,11 +28,10 @@ def on_submit(doc, method):
 			for source_item in doc.items:
 				if source_item.item_code == item.item_code:
 					item.update({
-						"item_code": source_item.item_code,
-						"item_name": source_item.item_name,
-						"qty": source_item.qty,
+						"qty": source_item.qty
 					})
 
-
 		pi.save()
+		frappe.db.commit()
 
+		return pi

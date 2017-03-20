@@ -37,6 +37,7 @@ fixtures = [
 
 doctype_js = {
 	"Purchase Order": "scripts/po.js",
+	"Sales Invoice": "scripts/sales_invoice.js",
 }
 
 # Includes in <head>
@@ -109,11 +110,6 @@ doc_events = {
 	"Delivery Note": {
 		"on_submit": [
 			"eden_sales.delivery_note.on_submit"
-		]
-	},
-	"Sales Invoice": {
-		"on_submit": [
-			"eden_sales.sales_invoice.on_submit"
 		]
 	},
 	"Payment Entry": {
