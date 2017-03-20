@@ -6,9 +6,9 @@ frappe.ui.form.on("Sales Invoice", {
             frm.add_custom_button(__('Send to Company'), function () {
                 frappe.call({
                     type: "GET",
-                    method: "eden_sales.company.get_by_customer",
+                    method: "eden_sales.sales_invoice.lookup_company",
                     args: {
-                        customer_name: frm.doc.customer
+                        name: frm.doc.name
                     },
                     freeze: true,
                     callback: function (r) {
