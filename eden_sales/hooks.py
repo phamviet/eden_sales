@@ -111,43 +111,5 @@ doc_events = {
 		"on_submit": [
 			"eden_sales.delivery_note.on_submit"
 		]
-	},
-	"Payment Entry": {
-		"on_submit": [
-			"eden_sales.payment_entry.on_submit"
-		]
-	},
+	}
 }
-
-# Scheduled Tasks
-# ---------------
-
-# scheduler_events = {
-# 	"all": [
-# 		"eden_sales.tasks.all"
-# 	],
-# 	"daily": [
-# 		"eden_sales.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"eden_sales.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"eden_sales.tasks.weekly"
-# 	]
-# 	"monthly": [
-# 		"eden_sales.tasks.monthly"
-# 	]
-# }
-
-# Testing
-# -------
-
-# before_tests = "eden_sales.install.before_tests"
-
-# Overriding Whitelisted Methods
-# ------------------------------
-#
-# override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "eden_sales.event.get_events"
-# }
