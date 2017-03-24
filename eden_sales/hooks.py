@@ -28,6 +28,7 @@ fixtures = [
 				"Delivery Note-dropship_contact",
 				"Delivery Note-dropship_mobile",
 				"Delivery Note-dropship_email",
+				"Delivery Note-dropship_order",
 				"Sales Order-shipping_customer_section",
 			)]
 		]
@@ -38,6 +39,7 @@ fixtures = [
 doctype_js = {
 	"Purchase Order": "scripts/po.js",
 	"Sales Invoice": "scripts/sales_invoice.js",
+	"Delivery Note": "scripts/delivery_note.js",
 }
 
 doc_events = {

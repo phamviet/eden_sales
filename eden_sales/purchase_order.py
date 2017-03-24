@@ -68,3 +68,7 @@ def make_sales_order(source_name, for_company, target_doc=None):
 	frappe.db.commit()
 
 	return doclist
+
+@frappe.whitelist()
+def lookup_company(name):
+	return frappe.get_value("Purchase Order", name, "company")
