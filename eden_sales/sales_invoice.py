@@ -37,6 +37,7 @@ def send_to_company(name):
 		pi = make_purchase_invoice(po.name)
 		pi.bill_no = doc.name
 		pi.bill_date = today()
+		items = []
 
 		for item in pi.items:
 			for source_item in doc.items:
@@ -44,7 +45,9 @@ def send_to_company(name):
 					item.update({
 						"qty": source_item.qty
 					})
+					items.append(item)
 
+		pi.set("items", items)
 		pi.save()
 		frappe.db.commit()
 
