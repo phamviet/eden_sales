@@ -55,7 +55,6 @@ def make_sales_order(source_name, for_company, target_doc=None):
 				["stock_uom", "uom"],
 			],
 			"field_no_map": [
-				"delivered_by_supplier",
 				"warehouse",
 				"rate",
 				"price_list_rate"
