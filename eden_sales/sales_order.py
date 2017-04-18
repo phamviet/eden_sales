@@ -24,3 +24,5 @@ def set_missing_values(doc, method):
 	if default_price_list:
 		doc.selling_price_list = default_price_list
 
+	if doc.dropship_order:
+		doc.title = "Dropship {0}".format(doc.customer_name)

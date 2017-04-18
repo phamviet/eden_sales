@@ -13,9 +13,9 @@ def make_sales_order(source_name, for_company, target_doc=None):
 		target.delivery_date = add_days(None, 3)
 		target.po_no = source.name
 		target.po_date = source.transaction_date
-		target.dropship_order = 1
 
 		if any(item.delivered_by_supplier == 1 for item in source.items):
+			target.dropship_order = 1
 			target.dropship_customer_name = source.customer_name
 			target.dropship_contact = source.contact_display
 			target.dropship_mobile = source.contact_mobile
