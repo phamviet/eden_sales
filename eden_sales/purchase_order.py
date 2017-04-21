@@ -20,6 +20,7 @@ def make_sales_order(source_name, for_company, target_doc=None):
 			target.dropship_contact = source.customer_contact_display
 			target.dropship_mobile = source.customer_contact_mobile
 			target.dropship_email = source.customer_contact_email
+			target.company_abbr = 
 
 			target.shipping_address_name = source.shipping_address
 			target.shipping_address = source.shipping_address_display
