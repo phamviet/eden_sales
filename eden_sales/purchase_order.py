@@ -21,8 +21,10 @@ def make_sales_order(source_name, for_company, target_doc=None):
 			target.dropship_mobile = source.customer_contact_mobile
 			target.dropship_email = source.customer_contact_email
 
-			target.shipping_address_name = source.shipping_address
-			target.shipping_address = source.shipping_address_display
+		target.shipping_address = source.shipping_address_display
+		target.shipping_address_name = source.shipping_address
+		
+#		target.company_abbr = None
 
 
 		target.run_method("set_missing_values")
